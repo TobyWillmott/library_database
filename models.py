@@ -20,12 +20,13 @@ class Book(Base):
     num_pages = Column(Integer, nullable=False)
     publication_date = Column(Integer, nullable=False)
     publisher_id = Column(Integer, ForeignKey("publisher.publisher_id"))
+
     authors = relationship("Author",
                                   secondary=book_author,
                                   order_by="(Author.author_name)",
                                   back_populates="books"
                                   )
-
+    publisher = relationship("Publisher", back_populates="books")
 
 class Author(Base):
     __tablename__ = "author"
@@ -42,3 +43,5 @@ class Publisher(Base):
     __tablename__ = "publisher"
     publisher_id = Column(Integer, primary_key=True, autoincrement=True)
     publisher_name = Column(String, nullable=False)
+
+    books = relationship("Book", back_populates="publisher")

@@ -16,15 +16,16 @@ books = [Book(title="The boy in the dress", ISBN_number="9780007329267", num_pag
          Book(title="Harry Potter and the philosphers stone", ISBN_number="9782207329211", num_pages=165, publication_date=1995, publisher_id=3),
          Book(title="James and the giant peach", ISBN_number="243908732467", num_pages=144, publication_date=1934, publisher_id=1),
          ]
+books[0].authors.append(authors[3])
+books[1].authors.append(authors[2])
+books[2].authors.append(authors[1])
+books[3].authors.append(authors[0])
 
-authors[0].books.append(books[3])
-authors[1].books.append(books[2])
-authors[2].books.append(books[1])
-authors[3].books.append(books[0])
 
 engine = create_engine("sqlite:///library.sqlite", echo=True)
 
 with Session(engine) as sess:
     sess.add_all(publishers)
+    sess.add_all(books)
     sess.commit()
 
