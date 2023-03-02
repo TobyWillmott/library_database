@@ -22,21 +22,22 @@ class Book(Base):
     publisher_id = Column(Integer, ForeignKey("publisher.publisher_id"))
 
     authors = relationship("Author",
-                                  secondary=book_author,
-                                  order_by="(Author.author_name)",
-                                  back_populates="books"
-                                  )
+                           secondary=book_author,
+                           order_by="(Author.author_name)",
+                           back_populates="books"
+                           )
     publisher = relationship("Publisher", back_populates="books")
+
 
 class Author(Base):
     __tablename__ = "author"
     author_id = Column(Integer, primary_key=True, autoincrement=True)
     author_name = Column(String, nullable=False)
     books = relationship("Book",
-                                secondary=book_author,
-                                order_by="(Book.title)",
-                                back_populates="authors"
-                                )
+                         secondary=book_author,
+                         order_by="(Book.title)",
+                         back_populates="authors"
+                         )
 
 
 class Publisher(Base):
