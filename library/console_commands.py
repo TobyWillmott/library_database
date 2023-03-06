@@ -24,7 +24,7 @@ books[3].authors.append(authors[0])
 books[0].publisher = publishers[0]
 books[1].publisher = publishers[1]
 books[2].publisher = publishers[2]
-books[3].publisher = publisher[0]
+books[3].publisher = publishers[0]
 engine = create_engine("sqlite:///library.sqlite", echo=True)
 
 with Session(engine) as sess:
