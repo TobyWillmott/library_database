@@ -12,11 +12,11 @@ class Email(Base):
         return f"Email:{self.email_adress}"
 
 
-    @validates("email")
+    @validates("email_adress")
     def validate_email(self, key, address):
         pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         if not re.fullmatch(pattern, address):
-            raise ValueError("Invalid email adress")
+            raise ValueError("Invalid email address")
         if key != "email":
             raise ValueError("Key must be 'email'")
         return address
