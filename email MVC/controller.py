@@ -15,7 +15,7 @@ class Controller:
         try:
 
             with Session(self.engine) as sess:
-                email_address = Email(email_adress=email)
+                email_address = Email(email_address=email)
                 sess.add(email_address)
                 sess.commit()
 
