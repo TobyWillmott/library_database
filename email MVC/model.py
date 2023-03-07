@@ -1,4 +1,4 @@
-from sqlalchemy import Column,Integer,String
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import declarative_base, validates
 import re
 
@@ -7,7 +7,7 @@ class Email(Base):
     __tablename__= "email"
     id = Column(Integer, primary_key=True, autoincrement=True)
     email_address = Column(String, nullable=False)
-
+    password = Column(String, nullable=False)
     def __repr__(self):
         return f"Email:{self.email_address}"
 
@@ -21,4 +21,11 @@ class Email(Base):
             raise ValueError("Key must be 'email'")
         return address
 
-
+    @validates("password")
+    def validate_password(self, key, password):
+        pattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+        if not re.fullmatch(pattern, password):
+            raise ValueError("Invalid password")
+        if key != "password":
+            raise ValueError("Key must be 'password'")
+        return password

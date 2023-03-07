@@ -10,21 +10,29 @@ class View(ttk.Frame):
 
         # create widgets
         # label
-        self.label = ttk.Label(self, text='Email:')
-        self.label.grid(row=1, column=0)
+        self.label_email = ttk.Label(self, text='Email:')
+        self.label_email.grid(row=1, column=0)
+
+        self.label_password = ttk.Label(self, text='Password: ')
+        self.label_password.grid(row=2, column=0)
 
         # email entry
         self.email_var = tk.StringVar()
         self.email_entry = ttk.Entry(self, textvariable=self.email_var, width=30)
         self.email_entry.grid(row=1, column=1, sticky=tk.NSEW)
 
+        # password entry
+        self.password_var = tk.StringVar()
+        self.password_entry = ttk.Entry(self, textvariable=self.password_var, width=30)
+        self.password_entry.grid(row=2, column=1, sticky=tk.NSEW)
+
         # save button
         self.save_button = ttk.Button(self, text='Save', command=self.save_button_clicked)
-        self.save_button.grid(row=1, column=3, padx=10)
+        self.save_button.grid(row=2, column=3, padx=10)
 
         # message
         self.message_label = ttk.Label(self, text='', foreground='red')
-        self.message_label.grid(row=2, column=1, sticky=tk.W)
+        self.message_label.grid(row=3, column=1, sticky=tk.W)
 
         # set the controller
         self.controller = None
@@ -44,7 +52,9 @@ class View(ttk.Frame):
         """
         try:
             if self.controller:
-                self.controller.save(self.email_var.get())
+                clicked = self.controller.save(self.email_var.get(), self.password_var.get())
+                self.show_success(clicked)
+
         except ValueError as error:
             self.show_error(error)
 
@@ -58,6 +68,9 @@ class View(ttk.Frame):
         self.message_label['foreground'] = 'red'
         self.message_label.after(3000, self.hide_message)
         self.email_entry['foreground'] = 'red'
+        self.password_entry['foreground'] = 'red'
+
+
 
     def show_success(self, message):
         """
@@ -72,6 +85,7 @@ class View(ttk.Frame):
         # reset the form
         self.email_entry['foreground'] = 'black'
         self.email_var.set('')
+        self.password_var.set('')
 
     def hide_message(self):
         """
@@ -79,6 +93,10 @@ class View(ttk.Frame):
         :return:
         """
         self.message_label['text'] = ''
+
+    def revert_colours(self):
+        self.password_entry["foreground"] = "black"
+        self.email_entry["foreground"] = "black"
 
 
 class App(tk.Tk):
