@@ -21,7 +21,7 @@ class Controller:
                 sess.add(email_address)
                 sess.commit()
 
-                return "saved"
+                return f"The email {email_address.email_address} saved!"
 
 
         except ValueError as error:

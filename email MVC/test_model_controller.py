@@ -28,12 +28,6 @@ class TestModel:
         first_test = sess.query(Email).first()
         assert first_test.email_address == "tobwil0910@highgateschool.org.uk"
 
-
-class Controller:
-    def __init__(self, db_name='emails.sqlite'):
-        self.engine = create_engine(f'sqlite:///{db_name}', echo=True)
-
-
 class TestController:
     @pytest.fixture()
     def setup_controller(self):
@@ -51,5 +45,10 @@ class TestController:
     def test_save_wrong_email(self, setup_controller):
         controller = setup_controller
         with pytest.raises(ValueError) as error:
-            controller.save('not_correct')
+            controller.save('not_correct', "Correct@101")
             assert str(error.value) == 'Invalid email address'
+    def test_save_wrong_password(self, setup_controller):
+        controller = setup_controller
+        with pytest.raises(ValueError) as error:
+            controller.save("correct.password@gmail.com", "incorrect")
+            assert str(error.value) == "Invalid password"
